@@ -54,9 +54,9 @@ export default function About({ data }: AboutProps) {
               aesthetics with back-end logic.
             </p>
             <p className="about-text">
-              Currently serving as Web Dev Core Team at TSIG and Cybersecurity
-              Core Team at GDGC on campus — I thrive at the intersection of
-              code, security, and community. Based in {data.location}.
+              Currently serving as Tech Team member at E-Cell and Cybersecurity
+              Team member at GDGC — I thrive at the intersection of code,
+              security, and community. Based in {data.location}.
             </p>
             <div className="about-badges">
               {badges.map((badge) => (
