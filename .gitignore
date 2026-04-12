@@ -1,1 +1,10 @@
 node_modules
+.next
+out
+build
+.DS_Store
+*.local
+.env
+.vercel
+# keep package-lock.json for deterministic builds on Vercel
+# package-lock.json
