@@ -88,6 +88,6 @@ export const portfolioData: PortfolioData = {
     { label: "LinkedIn", href: "https://www.linkedin.com/in/mohammedsaif923?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app", icon: "linkedin" },
     { label: "GitHub", href: "https://github.com/ms-923", icon: "github" },
     { label: "Instagram", href: "https://www.instagram.com/md.saif____?igsh=eGMwcGJoeWZ0bzNy&utm_source=qr", icon: "instagram" },
-    { label: "CodeCrafted_labs(Link's)", href: "https://codecraftedlabs.vercel.app/", icon: "link" },
+    { label: "CodeCrafted_labs (Link's)", href: "https://codecraftedlabs.vercel.app/", icon: "link" },
   ],
 };
