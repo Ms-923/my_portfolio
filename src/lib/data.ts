@@ -1,12 +1,24 @@
 import type { PortfolioData } from "@/types/portfolio";
 
 export const portfolioData: PortfolioData = {
-  name: "Mohammed Saif",
+  name: "Md Saif",
   title: "Student & Web Developer",
   email: "Mohammedsaifms2006@gmail.com",
   location: "Hyderabad, Telangana, India",
   tagline: "Building the web, one component at a time.",
   experience: [
+    {
+      company: "SV - StickerVerse",
+      roles: [
+        { title: "CTO - Chief Technology Officer", period: "Jun 2026 – Present", isCurrent: true },
+      ],
+    },
+    {
+      company: "GFG - GeekForGeeks",
+      roles: [
+        { title: "Campus Representative", period: "Jun 2026 – Present", isCurrent: true },
+      ],
+    },
     {
       company: "E-CELL – Entrepreneurship Cell @MJCET",
       roles: [
@@ -15,23 +27,23 @@ export const portfolioData: PortfolioData = {
       ],
     },
     {
-      company: "GDGC – Google Developer Groups On Campus @MJCET",
+      company: "TSIG – Technology Special Interest Group @MJCET",
       roles: [
-        { title: "Cyber Security – Core Team", period: "Nov 2025 – Present", isCurrent: true },
+        { title: "Web Dev – Core Team", period: "Nov 2025 – Aug 2026 • 10 Mon", isCurrent: true },
         { title: "Community Member", period: "Sep 2025 – Nov 2025" },
       ],
     },
     {
-      company: "TSIG – Technology Special Interest Group @MJCET",
+      company: "GDGC – Google Developer Groups On Campus @MJCET",
       roles: [
-        { title: "Web Dev – Core Team", period: "Nov 2025 – Present", isCurrent: true },
+        { title: "Cyber Security – Core Team", period: "Nov 2025 – Jul 2026 • 9 Mon", isCurrent: true },
         { title: "Community Member", period: "Sep 2025 – Nov 2025" },
       ],
     },
     {
       company: "Central Institute of Tool Design",
       roles: [
-        { title: "Team Lead", period: "Apr 2025 – May 2025" },
+        { title: "Team Lead", period: "Apr 2025 – May 2025 • 7 Mon" },
         { title: "Student Intern", period: "Nov 2024 – Mar 2025" },
       ],
     },
@@ -46,7 +58,7 @@ export const portfolioData: PortfolioData = {
       institution: "Brilliant grammar school educational society group of institutions",
       degree: "Diploma – Computer Science Engineering",
       period: "2022 – 2025",
-      percentage: "79.97%",
+      percentage: "First Class",
     },
     {
       institution: "Loyola High School",
