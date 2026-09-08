@@ -1,6 +1,6 @@
 "use client";
 /* eslint-disable react/no-unknown-property */ 
-import React, { forwardRef, useMemo, useRef } from 'react';
+import React, { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Color, Mesh } from 'three';
 import { IUniform } from 'three';
@@ -127,18 +127,32 @@ export interface SilkProps {
 const Silk: React.FC<SilkProps> = ({ speed = 1.2, scale = 1, color = '#7B7481', noiseIntensity = 1.5, rotation = 0 }) => {
   const meshRef = useRef<Mesh>(null);
   const reducedMotion = usePrefersReducedMotion();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.matchMedia('(max-width: 768px)').matches);
+    };
+    checkMobile();
+    const mq = window.matchMedia('(max-width: 768px)');
+    mq.addEventListener('change', checkMobile);
+    return () => mq.removeEventListener('change', checkMobile);
+  }, []);
 
   const uniforms = useMemo<SilkUniforms>(
     () => ({
-      uSpeed: { value: speed },
+      uSpeed: { value: isMobile ? speed * 0.6 : speed },
       uScale: { value: scale },
-      uNoiseIntensity: { value: noiseIntensity },
+      uNoiseIntensity: { value: isMobile ? noiseIntensity * 0.7 : noiseIntensity },
       uColor: { value: new Color(...hexToNormalizedRGB(color)) },
       uRotation: { value: rotation },
       uTime: { value: 0 }
     }),
-    [speed, scale, noiseIntensity, color, rotation]
+    [speed, scale, noiseIntensity, color, rotation, isMobile]
   );
+
+  const dpr: [number, number] = isMobile ? [1, 1.25] : [1, 2];
+  const antialias = !isMobile;
 
   return (
     <div
@@ -151,14 +165,10 @@ const Silk: React.FC<SilkProps> = ({ speed = 1.2, scale = 1, color = '#7B7481', 
       }}
       aria-hidden="true"
     >
-      {/*
-        "demand" renders a single static frame, so the texture is still
-        there for visitors who have asked the OS to reduce motion.
-      */}
       <Canvas
-        dpr={[1, 2]}
+        dpr={dpr}
         frameloop={reducedMotion ? 'demand' : 'always'}
-        gl={{ alpha: false, antialias: true }}
+        gl={{ alpha: false, antialias, powerPreference: 'low-power' }}
         style={{ display: 'block', width: '100%', height: '100%', background: '#07070A' }}
       >
         <SilkPlane ref={meshRef} uniforms={uniforms} />
