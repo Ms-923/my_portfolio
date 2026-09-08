@@ -14,7 +14,7 @@ export default function Home() {
     <>
       <Cursor />
       <Navbar />
-      <main>
+      <main id="main">
         <Hero data={portfolioData} />
         <About data={portfolioData} />
         <Experience

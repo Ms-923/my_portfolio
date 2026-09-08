@@ -16,18 +16,17 @@ export default function Contact({ data }: ContactProps) {
     <section id="contact">
       <div className="container">
         <div className="contact-layout">
-          {/* Left */}
           <div className="reveal" ref={leftRef}>
-            <p className="section-label">Get In Touch</p>
-            <div className="gold-line" />
-            <h2 className="contact-heading">
-              Let&apos;s Build
-              <span>Something</span>
-              Together.
-            </h2>
+            {/* Solid fill instead of the previous outline-stroke word */}
+            <h2 className="contact-heading">Let&apos;s build something together.</h2>
+            <p className="contact-intro">
+              Open to internships, freelance work, and collaborations. The
+              fastest way to reach me is email.
+            </p>
             <a href={`mailto:${data.email}`} className="contact-email">
               {data.email}
             </a>
+
             <div className="social-links">
               {data.contactLinks.map((link) => (
                 <a
@@ -38,13 +37,14 @@ export default function Contact({ data }: ContactProps) {
                   rel="noreferrer"
                 >
                   <span className="social-link-label">{link.label}</span>
-                  <span className="social-link-arrow">↗</span>
+                  <span className="social-link-arrow" aria-hidden="true">
+                    ↗
+                  </span>
                 </a>
               ))}
             </div>
           </div>
 
-          {/* Form */}
           <div className="reveal" ref={rightRef}>
             <ContactForm />
           </div>
@@ -59,6 +59,8 @@ type FormStatus = "idle" | "sending" | "success" | "error";
 function ContactForm() {
   const [status, setStatus] = useState<FormStatus>("idle");
   const formRef = useRef<HTMLFormElement>(null);
+
+  const isLocked = status === "sending" || status === "success";
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -88,13 +90,7 @@ function ContactForm() {
   };
 
   return (
-    <form
-      ref={formRef}
-      className="contact-form"
-      onSubmit={handleSubmit}
-      noValidate
-    >
-      {/* Web3Forms hidden fields */}
+    <form ref={formRef} className="contact-form" onSubmit={handleSubmit} noValidate>
       <input
         type="hidden"
         name="access_key"
@@ -106,63 +102,77 @@ function ContactForm() {
         name="subject"
         value="New message from your portfolio"
       />
-      <input
-        type="hidden"
-        name="from_name"
-        value="Mohammed Saif Portfolio"
-      />
+      <input type="hidden" name="from_name" value="Mohammed Saif Portfolio" />
 
-      <input
-        type="text"
-        name="name"
-        className="form-input"
-        placeholder="Your Name"
-        aria-label="Your Name"
-        required
-        disabled={status === "sending" || status === "success"}
-      />
-      <input
-        type="email"
-        name="email"
-        className="form-input"
-        placeholder="Your Email"
-        aria-label="Your Email"
-        required
-        disabled={status === "sending" || status === "success"}
-      />
-      <textarea
-        name="message"
-        className="form-textarea"
-        placeholder="Your Message"
-        aria-label="Your Message"
-        required
-        disabled={status === "sending" || status === "success"}
-      />
+      {/*
+        Visible labels rather than placeholder-only labelling, which
+        disappears as soon as someone starts typing.
+      */}
+      <div className="form-group">
+        <label className="form-label" htmlFor="contact-name">
+          Name
+        </label>
+        <input
+          id="contact-name"
+          type="text"
+          name="name"
+          className="form-input"
+          autoComplete="name"
+          required
+          disabled={isLocked}
+        />
+      </div>
 
-      <button
-        className="form-submit"
-        type="submit"
-        disabled={status === "sending" || status === "success"}
-      >
-        <span>
-          {status === "sending"
-            ? "Sending..."
-            : status === "success"
-            ? "Message Sent ✓"
-            : "Send Message →"}
-        </span>
+      <div className="form-group">
+        <label className="form-label" htmlFor="contact-email">
+          Email
+        </label>
+        <input
+          id="contact-email"
+          type="email"
+          name="email"
+          className="form-input"
+          autoComplete="email"
+          required
+          disabled={isLocked}
+        />
+      </div>
+
+      <div className="form-group">
+        <label className="form-label" htmlFor="contact-message">
+          Message
+        </label>
+        <textarea
+          id="contact-message"
+          name="message"
+          className="form-textarea"
+          required
+          disabled={isLocked}
+        />
+      </div>
+
+      <button className="form-submit" type="submit" disabled={isLocked}>
+        {status === "sending"
+          ? "Sending…"
+          : status === "success"
+          ? "Message sent"
+          : "Send message"}
       </button>
 
-      {status === "success" && (
-        <p className="form-feedback form-feedback--success">
-          Thanks! I&apos;ll get back to you soon.
-        </p>
-      )}
-      {status === "error" && (
-        <p className="form-feedback form-feedback--error">
-          Something went wrong. Please try again or email directly.
-        </p>
-      )}
+      {/* Status is announced, not just shown */}
+      <div aria-live="polite">
+        {status === "success" && (
+          <p className="form-feedback form-feedback--success">
+            Thanks — I&apos;ll get back to you soon.
+          </p>
+        )}
+        {status === "error" && (
+          <p className="form-feedback form-feedback--error">
+            That didn&apos;t send. Try again, or email me directly at the
+            address on the left.
+          </p>
+        )}
+      </div>
     </form>
   );
 }

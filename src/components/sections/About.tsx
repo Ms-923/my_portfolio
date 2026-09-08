@@ -11,9 +11,9 @@ interface AboutProps {
 const badges = [
   "CSE '28",
   "Hyderabad",
-  "Web Developer",
+  "Web development",
   "Cybersecurity",
-  "IoT Enthusiast",
+  "IoT",
 ];
 
 export default function About({ data }: AboutProps) {
@@ -24,44 +24,41 @@ export default function About({ data }: AboutProps) {
     <section id="about">
       <div className="container">
         <div className="about-grid">
-          {/* Photo */}
           <div className="about-photo-wrapper">
             <div className="about-photo-frame reveal" ref={photoRef}>
               <Image
                 src="/images/profile.jpg"
-                alt={data.name}
+                alt={`Portrait of ${data.name}`}
                 fill
-                sizes="340px"
+                sizes="(max-width: 768px) 260px, 300px"
                 style={{ objectFit: "cover", objectPosition: "center top" }}
               />
-              <div className="about-corner tr" />
-              <div className="about-corner bl" />
-              <div className="about-corner br" />
             </div>
           </div>
 
-          {/* Text */}
           <div className="reveal" ref={textRef}>
-            <p className="section-label">About Me</p>
-            <div className="gold-line" />
+            {/*
+              Previously this repeated the hero's name (and misspelled it).
+              A descriptive heading does more work in this position.
+            */}
             <h2 className="about-heading">
-            <em>MOHAMEMD</em> SAIF
+              Computer Science student, building for the web.
             </h2>
             <p className="about-text">
-              I'm a Computer Science student at Muffakham Jah
-              College of Engineering & Technology, passionate about building
-              things that live on the internet. I bring together front-end
-              aesthetics with back-end logic.
+              I&apos;m studying Computer Science at Muffakham Jah College of
+              Engineering &amp; Technology, where most of my time goes into
+              building things that live on the internet — pairing front-end
+              craft with back-end logic.
             </p>
             <p className="about-text">
-              Currently serving as Tech Team member at E-Cell and Cybersecurity
-              Team member at GDGC — I thrive at the intersection of code,
-              security, and community. Based in {data.location}.
+              Alongside coursework I sit on the Tech core team at E-Cell and the
+              Cybersecurity core team at GDGC, which keeps me working across
+              code, security, and community at once. Based in {data.location}.
             </p>
             <div className="about-badges">
               {badges.map((badge) => (
                 <div className="badge" key={badge}>
-                  <span className="badge-dot" />
+                  <span className="badge-dot" aria-hidden="true" />
                   {badge}
                 </div>
               ))}

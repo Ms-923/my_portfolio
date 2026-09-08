@@ -8,25 +8,23 @@ interface SkillsProps {
 }
 
 export default function Skills({ skills }: SkillsProps) {
-  const headerRef = useReveal();
-  const gridRef = useReveal(0.1);
+  const headerRef = useReveal<HTMLElement>();
+  const gridRef = useReveal<HTMLUListElement>(0.1);
 
   return (
     <section id="skills">
       <div className="container">
-        <div className="reveal" ref={headerRef}>
-          <p className="section-label">Capabilities</p>
-          <div className="gold-line" />
-          <h2 className="section-heading">Skills & Tools</h2>
-        </div>
+        <header className="section-head reveal" ref={headerRef}>
+          <h2 className="section-heading">Skills &amp; tools</h2>
+        </header>
 
-        <div className="skills-grid reveal" ref={gridRef}>
+        <ul className="skills-grid reveal" ref={gridRef}>
           {skills.map((skill) => (
-            <div className="skill-item" key={skill}>
+            <li className="skill-item" key={skill}>
               <span className="skill-name">{skill}</span>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );

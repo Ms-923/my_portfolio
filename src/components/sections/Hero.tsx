@@ -10,42 +10,37 @@ export default function Hero({ data }: HeroProps) {
 
   return (
     <section className="hero" id="hero">
-      {/* Background layers */}
       <div className="hero-grid" aria-hidden="true" />
       <div className="hero-glow" aria-hidden="true" />
       <div className="hero-glow hero-glow--left" aria-hidden="true" />
 
       <div className="container">
         <div className="hero-content-wrapper">
-          {/* ── LEFT: text content ── */}
           <div className="hero-content">
+            {/*
+              Solid fill rather than the previous outline stroke — outlined
+              type over a moving shader is very hard to read.
+            */}
             <h1 className="hero-name">
-              <span className="first">{firstName}</span>
-              <span className="last" data-text={lastName}>{lastName}</span>
+              {firstName} <span className="last">{lastName}</span>
             </h1>
 
-            <div className="hero-descriptor">
-              <div className="hero-descriptor-dot" />
-              <span className="hero-descriptor-text">{data.title}</span>
-              <div className="hero-descriptor-dot" />
-              <span className="hero-descriptor-text">MJCET &apos;28</span>
-              <div className="hero-descriptor-dot" />
-              <span className="hero-descriptor-text">Hyderabad</span>
-            </div>
+            {/* The page's single orchestrated load moment */}
+            <div className="hero-rule" aria-hidden="true" />
 
+            <p className="hero-role">{data.title}</p>
             <p className="hero-tagline">{data.tagline}</p>
 
             <div className="hero-cta">
-              <a href="#projects" className="btn-primary">View My Work →</a>
-              <a href="#contact" className="btn-secondary">Get In Touch</a>
+              <a href="#projects" className="btn-primary">
+                See my projects
+              </a>
+              <a href="#contact" className="btn-secondary">
+                Get in touch
+              </a>
             </div>
           </div>
         </div>
-      </div>
-
-      <div className="scroll-indicator">
-        <div className="scroll-line" />
-        <span>Scroll</span>
       </div>
     </section>
   );

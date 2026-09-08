@@ -22,17 +22,27 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body style={{ background: "#080808" }}>
-        <Silk 
-          speed={1.2} 
-          scale={1.2} 
-          color="#9D8FD1" 
-          noiseIntensity={1.2} 
-          rotation={0} 
+      <body>
+        {/*
+          Shader colour is deliberately dark. At the previous #9D8FD1 the
+          bright bands of the pattern gave white text roughly 2.9:1
+          contrast, so legibility changed as the animation moved.
+        */}
+        <Silk
+          speed={0.5}
+          scale={1.2}
+          color="#3A3158"
+          noiseIntensity={0.9}
+          rotation={0}
         />
-        <div style={{ position: "relative", zIndex: 1 }}>
-          {children}
-        </div>
+        {/* Holds contrast steady over the moving shader */}
+        <div className="bg-scrim" aria-hidden="true" />
+
+        <a href="#main" className="skip-link">
+          Skip to content
+        </a>
+
+        <div style={{ position: "relative", zIndex: 1 }}>{children}</div>
       </body>
     </html>
   );

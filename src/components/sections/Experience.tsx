@@ -16,32 +16,34 @@ export default function Experience({ experience, education }: ExperienceProps) {
     <section id="experience">
       <div className="container">
         <div className="experience-layout">
-          {/* Experience timeline */}
           <div className="reveal" ref={expRef}>
-            <p className="section-label">Career</p>
-            <div className="gold-line" />
-            <h2 className="section-heading">Experience</h2>
+            {/* The heading carries the section; the old eyebrow + rule above
+                every heading was decoration rather than information. */}
+            <header className="section-head">
+              <h2 className="section-heading">Experience</h2>
+            </header>
+
             <div className="timeline">
               {experience.map((exp) => (
                 <div
-                  className={`timeline-item ${exp.roles[0]?.isCurrent ? "active" : ""}`}
+                  className={`timeline-item ${
+                    exp.roles[0]?.isCurrent ? "active" : ""
+                  }`}
                   key={exp.company}
                 >
-                  <div className="timeline-company">{exp.company}</div>
+                  <h3 className="timeline-company">{exp.company}</h3>
                   {exp.roles.map((role) => (
-                    <div key={role.title}>
-                      <div className="timeline-role">
-                        <span
-                          className={
-                            role.isCurrent
-                              ? "timeline-role-title"
-                              : "timeline-role-secondary"
-                          }
-                        >
-                          {role.title}
-                        </span>
-                        <span className="timeline-period">{role.period}</span>
-                      </div>
+                    <div className="timeline-role" key={role.title}>
+                      <span
+                        className={
+                          role.isCurrent
+                            ? "timeline-role-title"
+                            : "timeline-role-secondary"
+                        }
+                      >
+                        {role.title}
+                      </span>
+                      <span className="timeline-period">{role.period}</span>
                     </div>
                   ))}
                 </div>
@@ -49,19 +51,19 @@ export default function Experience({ experience, education }: ExperienceProps) {
             </div>
           </div>
 
-          {/* Education */}
           <div className="reveal" ref={eduRef}>
-            <p className="section-label">Education</p>
-            <div className="gold-line" />
-            <h2 className="section-heading">Academic</h2>
+            <header className="section-head">
+              <h2 className="section-heading">Education</h2>
+            </header>
+
             {education.map((edu) => (
               <div className="edu-card" key={edu.institution}>
-                <div className="edu-institution">{edu.institution}</div>
-                <div className="edu-degree">{edu.degree}</div>
+                <h3 className="edu-institution">{edu.institution}</h3>
+                <p className="edu-degree">{edu.degree}</p>
                 <div className="edu-footer">
                   <span className="edu-period">{edu.period}</span>
                   {edu.percentage && (
-                    <span className="edu-percentage">Percentage: {edu.percentage}</span>
+                    <span className="edu-percentage">{edu.percentage}</span>
                   )}
                 </div>
               </div>

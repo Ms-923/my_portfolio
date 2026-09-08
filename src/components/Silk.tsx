@@ -1,9 +1,10 @@
 "use client";
 /* eslint-disable react/no-unknown-property */ 
-import React, { forwardRef, useMemo, useRef } from 'react'; 
-import { Canvas, useFrame, useThree } from '@react-three/fiber'; 
-import { Color, Mesh } from 'three'; 
-import { IUniform } from 'three'; 
+import React, { forwardRef, useMemo, useRef } from 'react';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { Color, Mesh } from 'three';
+import { IUniform } from 'three';
+import { usePrefersReducedMotion } from '@/lib/useEnvironment';
 
 type NormalizedRGB = [number, number, number]; 
 
@@ -123,22 +124,23 @@ export interface SilkProps {
   rotation?: number; 
 } 
 
-const Silk: React.FC<SilkProps> = ({ speed = 1.2, scale = 1, color = '#7B7481', noiseIntensity = 1.5, rotation = 0 }) => { 
-  const meshRef = useRef<Mesh>(null); 
+const Silk: React.FC<SilkProps> = ({ speed = 1.2, scale = 1, color = '#7B7481', noiseIntensity = 1.5, rotation = 0 }) => {
+  const meshRef = useRef<Mesh>(null);
+  const reducedMotion = usePrefersReducedMotion();
 
-  const uniforms = useMemo<SilkUniforms>( 
-    () => ({ 
-      uSpeed: { value: speed }, 
-      uScale: { value: scale }, 
-      uNoiseIntensity: { value: noiseIntensity }, 
-      uColor: { value: new Color(...hexToNormalizedRGB(color)) }, 
-      uRotation: { value: rotation }, 
-      uTime: { value: 0 } 
-    }), 
-    [speed, scale, noiseIntensity, color, rotation] 
-  ); 
+  const uniforms = useMemo<SilkUniforms>(
+    () => ({
+      uSpeed: { value: speed },
+      uScale: { value: scale },
+      uNoiseIntensity: { value: noiseIntensity },
+      uColor: { value: new Color(...hexToNormalizedRGB(color)) },
+      uRotation: { value: rotation },
+      uTime: { value: 0 }
+    }),
+    [speed, scale, noiseIntensity, color, rotation]
+  );
 
-  return ( 
+  return (
     <div
       style={{
         position: 'fixed',
@@ -147,17 +149,22 @@ const Silk: React.FC<SilkProps> = ({ speed = 1.2, scale = 1, color = '#7B7481', 
         zIndex: 0,
         overflow: 'hidden'
       }}
+      aria-hidden="true"
     >
-      <Canvas 
-        dpr={[1, 2]} 
-        frameloop="always" 
+      {/*
+        "demand" renders a single static frame, so the texture is still
+        there for visitors who have asked the OS to reduce motion.
+      */}
+      <Canvas
+        dpr={[1, 2]}
+        frameloop={reducedMotion ? 'demand' : 'always'}
         gl={{ alpha: false, antialias: true }}
-        style={{ display: 'block', width: '100vw', height: '100vh', background: '#080808' }}
-      > 
-        <SilkPlane ref={meshRef} uniforms={uniforms} /> 
-      </Canvas> 
+        style={{ display: 'block', width: '100%', height: '100%', background: '#07070A' }}
+      >
+        <SilkPlane ref={meshRef} uniforms={uniforms} />
+      </Canvas>
     </div>
-  ); 
-}; 
+  );
+};
 
 export default Silk; 
